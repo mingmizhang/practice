@@ -13,6 +13,7 @@ public class FlightInfo implements Comparable<FlightInfo> {
     public FlightInfo() {
     }
 
+
     public FlightInfo(String[] flightValue) {
         this.name = flightValue[0];
         this.phone = flightValue[1];
@@ -66,13 +67,14 @@ public class FlightInfo implements Comparable<FlightInfo> {
         return Double.valueOf(this.getPrice()).compareTo(flightInfo.getPrice());
     }
 
+    @Override
     public String toString() {
-        return "the name is:" + getName() + "\t" +
-                "the phone is:" + getPhone() + "\t" +
-                "the price is:" + getPrice() + "\t" +
-                "the type is:" + getType() + "\t" +
-                "the date is:" + getDate() + "\t";
-
-
+        return "FlightInfo{" +
+                "name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", type='" + type + '\'' +
+                ", price=" + price +
+                ", date='" + date + '\'' +
+                '}';
     }
 }

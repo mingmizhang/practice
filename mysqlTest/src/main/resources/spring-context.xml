@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.dp.mingmi"/>
+
+    <bean id="dbQueryService" class="com.dp.mingmi.DatabaseQueryService">
+        <property name="springSqlTest" ref="artsITDBInfo"></property>
+    </bean>
+
+    <bean id="artsITDBInfo" class="com.dp.mingmi.SpringSqlTest">
+        <property name="driver" value="com.mysql.jdbc.Driver"></property>
+        <property name="username" value="arts_it"></property>
+        <property name="passwd" value="dp!@ymCDqp342"></property>
+        <property name="databasename" value="Arts_IT"></property>
+        <property name="ip" value="10.66.7.32"></property>
+        <property name="port" value="3306"></property>
+        <property name="url" value="" ></property>
+    </bean>
+
+    <!--<bean id="artsDataSource" class="com.dianping.zebra.group.jdbc.GroupDataSource" init-method="init" destroy-method="close">-->
+        <!--<property name="jdbcRef" value="arts"/>-->
+        <!--<property name="maxPoolSize" value="30"/>-->
+        <!--<property name="maxIdleTime" value="7200"/>-->
+        <!--<property name="testConnectionOnCheckin" value="true"/>-->
+        <!--<property name="idleConnectionTestPeriod" value="60"/>-->
+        <!--<property name="preferredTestQuery" value="SELECT 1"/>-->
+        <!--<property name="checkoutTimeout" value="20000"/>-->
+    <!--</bean>-->
+
+
+    <bean id="artsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://10.66.7.32:3306/Arts_IT" />
+        <property name="username" value="arts_it"/>
+        <property name="password" value="dp!@ymCDqp342"/>
+    </bean>
+
+    <bean id="artsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="artsDataSource" />
+        <!--<property name="configLocation" value="classpath:mybatis-config.xml" />-->
+        <property name="mapperLocations" value="classpath:userMapping.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.dp.mingmi" />
+    <property name="sqlSessionFactoryBeanName" value="artsSqlSessionFactory" />
+    </bean>
+
+
+</beans>

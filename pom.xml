@@ -9,13 +9,32 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>parent</module>
         <module>sockettest</module>
         <module>readexcelfile</module>
         <module>streamtest</module>
         <module>calculatortest</module>
         <module>fileoperation</module>
         <module>flightcalendar</module>
+        <module>flightcalendarmodify</module>
+        <module>common-use</module>
+        <module>philosopherdining</module>
+        <module>reflecttest</module>
+        <module>myclassloader</module>
+        <module>MysqlTest</module>
+        <module>myBatisSql</module>
+        <module>serialTest</module>
+        <module>ProducerAndConsumerTest</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+    </dependencies>
+
 
 
 </project>

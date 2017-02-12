@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dp.mingmi.mybatistest.AppInfoDao">
+
+    <select id="getAppClusterName" parameterType="String" resultType="com.dp.mingmi.mybatistest.AppInfoDaoTest">
+
+        select IndexClusterName,SearchClusterName,BizClusterName,AddTime from Arts_AppInfo where Name="arts_it"
+        <if test="AddTime !=null">
+            <![CDATA[
+            AND AddTime < #{AddTime}
+             ]]>
+        </if>
+
+    </select>
+
+    <update id="updateIndexerCLusterName" parameterType="String">
+        update Arts_AppInfo set IndexClusterName=#{appIndexer} where Name="arts_it"
+    </update>
+
+    <select id="selectIndexerClusterName" parameterType="com.dp.mingmi.mybatistest.AppInfoDaoTest" resultType="String">
+        select IndexClusterName from Arts_AppInfo where Name=#{appName}
+    </select>
+
+    <insert id="insertAppName" parameterType="com.dp.mingmi.mybatistest.AppInfoDaoTest">
+        insert into Arts_AppInfo(Name,Description,AddTime,IndexClusterName,SearchClusterName,BizClusterName,Status,SupervisorClusterName,AggregatorClusterName)values(#{appName}, '自动化测试', '2015-11-12 00:00:00', 'mainshop_indexer', 'mainshop_searcher', 'mainshop_bizer', 0, 'mainshop_supervisor', NULL)
+    </insert>
+
+    <delete id="deleteAppName" parameterType="com.dp.mingmi.mybatistest.AppInfoDaoTest">
+        delete from Arts_AppInfo where Name=#{appName}
+    </delete>
+
+    <resultMap id="appNameRelation" type="com.dp.mingmi.mybatistest.AppInfoDaoTest">
+        <result property="appName" column="AppName"></result>
+    </resultMap>
+
+    <select id="getRelation" resultMap="appNameRelation">
+        select AppName from Arts_AppRelation
+        <where>
+            <if test="updateTime != null">
+                updatetime > #{updateTime}
+            </if>
+            <if test="updateTime != null">
+                and  status =1
+            </if>
+        </where>
+    </select>
+
+    <!--<select id="getRelation" resultMap="appNameRelation">-->
+        <!--select AppName from Arts_AppRelation-->
+        <!--<where>-->
+            <!--<choose>-->
+                <!--<when test="updateTime == null">-->
+                    <!--status =1-->
+                <!--</when>-->
+                <!--<otherwise>-->
+                    <!--and updatetime = #{updateTime}-->
+                <!--</otherwise>-->
+            <!--</choose>-->
+        <!--</where>-->
+    <!--</select>-->
+
+    <select id="selectIndexerForList" resultType="java.lang.String">
+        select IndexClusterName from Arts_AppInfo
+        <where>
+            Name in
+            <foreach item="item" index="index" collection="list"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+
+</mapper>

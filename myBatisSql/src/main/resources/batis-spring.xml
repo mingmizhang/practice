@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-2.5.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.dp.mingmi.mybatistest"/>
+
+
+    <bean id="artsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="xxxx" />
+        <property name="username" value="xxx"/>
+        <property name="password" value="xxxx"/>
+    </bean>
+
+    <bean id="artsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="artsDataSource" />
+        <property name="mapperLocations" value="classpath:artsItMapping.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.dp.mingmi.mybatistest" />
+        <property name="sqlSessionFactoryBeanName" value="artsSqlSessionFactory" />
+    </bean>
+
+    <bean id="transactionTestManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="artsDataSource" />
+    </bean>
+
+    <tx:annotation-driven  transaction-manager="transactionTestManager" />
+    <bean id="facadeDao" class="com.dp.mingmi.mybatistest.FacadeDao"/>
+</beans>
